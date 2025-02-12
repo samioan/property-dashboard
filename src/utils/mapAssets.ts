@@ -1,4 +1,4 @@
-import type { AssetApi, Asset } from "@types";
+import type { AssetApi, Asset } from "@/types";
 
 export function mapAssets(assets: AssetApi[]): Asset[] {
   const mappedAssets = assets.map((asset, index) => ({

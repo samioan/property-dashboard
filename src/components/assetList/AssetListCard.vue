@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Asset } from "@types";
-import { AssetListCardText, AppButton } from "@components";
+import type { Asset } from "@/types";
+import { AssetListCardText, AppButton } from "@/components";
 
 defineProps<{
   asset: Asset;

@@ -1,1 +1,1 @@
-export * from "@services/apiService.ts";
+export * from "@/services/apiService.ts";

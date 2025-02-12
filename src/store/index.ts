@@ -1,1 +1,1 @@
-export * from "@store/assetStore";
+export * from "@/store/assetStore";

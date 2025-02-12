@@ -4,7 +4,7 @@ import {
   AssetCreationPage,
   AssetDetailPage,
   AssetListPage,
-} from "@pages";
+} from "@/pages";
 
 const routes = [
   {
@@ -25,6 +25,10 @@ const routes = [
     path: "/listings/:uuid",
     name: "View Listing",
     component: AssetDetailPage,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/",
   },
 ];
 

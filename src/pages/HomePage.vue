@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppButton } from "@components";
+import { AppButton } from "@/components";
 import { ref } from "vue";
 
 const uuid = ref("");

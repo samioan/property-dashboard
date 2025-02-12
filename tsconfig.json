@@ -4,16 +4,5 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "types": ["node"],
-  "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@types/*": ["src/types/*"],
-      "@utils/*": ["src/utils/*"],
-      "@store/*": ["src/store/*"],
-      "@services/*": ["src/services/*"],
-      "@pages/*": ["src/pages"]
-    }
-  }
+  "types": ["node"]
 }

@@ -21,20 +21,6 @@ export const fetchAssets = async (
   return response.data;
 };
 
-export const fetchAssetsByType = async (type: number) => {
-  const response = await axios.get(`${API_BASE_URL}/listings`, {
-    params: { ["filter[type_id]"]: type },
-  });
-  return response.data;
-};
-
-export const fetchAssetsByAmenities = async (amenities: string[]) => {
-  const response = await axios.get(`${API_BASE_URL}/listings`, {
-    params: { ["filter[amenities]"]: amenities.join(",") },
-  });
-  return response.data;
-};
-
 export const fetchAssetById = async (uuid: string) => {
   const response = await axios.get(`${API_BASE_URL}/listings/${uuid}`);
   return response.data;

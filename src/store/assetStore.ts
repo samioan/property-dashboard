@@ -1,16 +1,14 @@
 import { defineStore } from "pinia";
 import {
   fetchAssets,
-  fetchAssetsByType,
-  fetchAssetsByAmenities,
   fetchAssetById,
   updateAsset,
   fetchAmenities,
   fetchTypes,
-} from "@services";
-import type { Asset, AssetApi, AssetType, AssetWithType } from "@types";
+} from "@/services";
+import type { Asset, AssetApi, AssetType, AssetWithType } from "@/types";
 import { ref } from "vue";
-import { mapAssets, mapTypes } from "@utils";
+import { mapAssets, mapTypes } from "@/utils";
 
 export const useAssetStore = defineStore("assetStore", () => {
   const LIMIT_PER_PAGE = 30;
@@ -43,7 +41,10 @@ export const useAssetStore = defineStore("assetStore", () => {
 
   async function loadAssetById(uuid: string) {
     const currentAssetData = await fetchAssetById(uuid);
-    currentAsset.value = currentAssetData.data;
+    currentAsset.value = {
+      ...currentAssetData.data,
+      available_from: currentAssetData.data.available_from.split("T")[0],
+    };
   }
 
   async function saveAsset(uuid: string, data: AssetWithType) {
@@ -52,6 +53,7 @@ export const useAssetStore = defineStore("assetStore", () => {
   }
 
   async function loadTypes() {
+    if (types.value.length) return;
     isLoading.value.push("Types");
     const typesData = await fetchTypes().catch(() => (hasError.value = true));
     isLoading.value = isLoading.value.filter((item) => item !== "Types");
@@ -59,6 +61,7 @@ export const useAssetStore = defineStore("assetStore", () => {
   }
 
   async function loadAmenities() {
+    if (amenities.value.length) return;
     isLoading.value.push("Amenities");
     const amenitiesData = await fetchAmenities().catch(
       () => (hasError.value = true)
@@ -69,6 +72,20 @@ export const useAssetStore = defineStore("assetStore", () => {
 
   function setIsModalOpen(value: boolean) {
     isModalOpen.value = value;
+  }
+
+  function clearData() {
+    assets.value = [];
+    currentAsset.value = {} as AssetApi;
+    types.value = [];
+    amenities.value = [];
+    selectedType.value = { id: 0, uuid: "0", name: "None" };
+    selectedAmenities.value = [];
+    page.value = 1;
+    lastPage.value = 2;
+    isModalOpen.value = false;
+    isLoading.value = [];
+    hasError.value = false;
   }
 
   return {
@@ -89,5 +106,6 @@ export const useAssetStore = defineStore("assetStore", () => {
     loadTypes,
     loadAmenities,
     setIsModalOpen,
+    clearData,
   };
 });

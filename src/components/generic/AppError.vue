@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="h-screen m-screen flex justify-center items-center">
+  <div class="m-screen flex justify-center items-center">
     <div
       id="alert-additional-content-2"
       class="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 max-w-lg"
@@ -27,7 +27,7 @@ defineProps<{
         <h3 class="text-lg font-medium">Oops!</h3>
       </div>
       <div class="mt-2 mb-4 text-sm">
-        Something went wrong during your request. Please try again.
+        Something went wrong during your request.
       </div>
       <div class="flex">
         <button

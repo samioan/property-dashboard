@@ -1,2 +1,2 @@
-export { mapAssets } from "@utils/mapAssets";
-export { mapTypes } from "@utils/mapTypes";
+export { mapAssets } from "@/utils/mapAssets";
+export { mapTypes } from "@/utils/mapTypes";

@@ -1,1 +1,1 @@
-export { default as AssetFilters } from "@components/assetFilters/AssetFilters.vue";
+export { default as AssetFilters } from "@/components/assetFilters/AssetFilters.vue";

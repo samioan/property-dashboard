@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Asset } from "@types";
-import { AssetListCard } from "@components/assetList";
+import type { Asset } from "@/types";
+import { AssetListCard } from "@/components/assetList";
 
 defineProps<{
   assets: Asset[];
-  onClick: () => void;
+  onClick: (id: number) => void;
 }>();
 </script>
 
