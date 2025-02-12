@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { createAsset } from "@/services";
 import { useAssetStore } from "@/store";
@@ -10,7 +10,7 @@ const router = useRouter();
 const store = useAssetStore();
 const form = ref({
   title: "",
-  available_from: Date.now(),
+  available_from: `${Date.now()}`,
   amenities: [],
   street: "",
   street_number: "",
@@ -18,58 +18,22 @@ const form = ref({
   floor: 0,
   bathrooms: 0,
   bedrooms: 0,
-  price: 0,
+  price: "0",
   type: {} as AssetType,
   size: 0,
   description: "",
 });
-const descriptionError = ref("");
-const bathroomsError = ref("");
-const availableFromError = ref("");
+
 const errorMessage = ref("");
 const isSubmitting = ref(false);
 
-const validateForm = () => {
-  let isValid = true;
-
-  if (
-    form.value.description.length < 50 ||
-    form.value.description.length > 500
-  ) {
-    descriptionError.value =
-      "Description must be between 50 and 500 characters.";
-    isValid = false;
-  } else {
-    descriptionError.value = "";
-  }
-
-  if (form.value.bathrooms < 0 || form.value.bathrooms > 10) {
-    bathroomsError.value = "Bathrooms must be between 0 and 10.";
-    isValid = false;
-  } else {
-    bathroomsError.value = "";
-  }
-
-  const today = new Date();
-  const availableFromDate = new Date(form.value.available_from);
-  if (availableFromDate <= today) {
-    availableFromError.value = "Available from date must be in the future.";
-    isValid = false;
-  } else {
-    availableFromError.value = "";
-  }
-
-  return isValid;
-};
-
 const submitForm = async () => {
-  // if (!validateForm()) return;
-
   isSubmitting.value = true;
   errorMessage.value = "";
 
   await createAsset({
     ...form.value,
+    price: form.value.price.toString(),
     type_id: store.types.find(
       (item: AssetType) => item.name === form.value.type.name
     )?.uuid,
@@ -94,6 +58,8 @@ onMounted(() => {
   store.loadTypes();
   store.loadAmenities();
 });
+
+onUnmounted(() => store.clearData());
 </script>
 
 <template>
@@ -125,6 +91,7 @@ onMounted(() => {
           :amenities="store?.amenities"
           :types="store?.types.slice(1)"
           label="Create Asset"
+          :disabled="isSubmitting"
         />
         <p class="text-center text-red-400" v-if="errorMessage">
           {{ errorMessage }}

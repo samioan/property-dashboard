@@ -1,20 +1,25 @@
 <script setup lang="ts">
 import { useAssetStore } from "@/store";
-import type { AssetType } from "@/types";
+import type { AssetType, AssetWithType } from "@/types";
 import {
   AssetEditModalHeader,
   AssetEditModalBackground,
   AssetForm,
 } from "@/components";
+import { computed } from "vue";
 
 const store = useAssetStore();
+const selectedTypeId = computed(
+  () =>
+    store.types.find(
+      (item: AssetType) => item.name === store.currentAsset?.type.name
+    )?.uuid
+);
 
 const saveChanges = async () => {
-  await store.saveAsset(store.currentAsset.uuid, {
-    ...store.currentAsset,
-    type_id: store.types.find(
-      (item: AssetType) => item.name === store.currentAsset?.type.name
-    )?.uuid,
+  await store.saveAsset(store.currentAsset?.uuid as string, {
+    ...(store.currentAsset as AssetWithType),
+    type_id: selectedTypeId.value as string,
   });
   store.setIsModalOpen(false);
 };
@@ -28,7 +33,7 @@ const saveChanges = async () => {
       <AssetEditModalHeader :on-click="() => store.setIsModalOpen(false)" />
 
       <AssetForm
-        :asset="store?.currentAsset"
+        :asset="store?.currentAsset ?? ({} as AssetWithType)"
         :on-submit="() => saveChanges()"
         :amenities="store?.amenities"
         :types="store?.types.slice(1)"

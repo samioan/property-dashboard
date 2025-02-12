@@ -6,11 +6,11 @@ import {
   AssetFormTextarea,
   AssetFormCheckbox,
 } from "@/components";
-import type { AssetApi, AssetType } from "@/types";
+import type { AssetType, AssetWithType } from "@/types";
 
 withDefaults(
   defineProps<{
-    asset: AssetApi;
+    asset: AssetWithType;
     onSubmit: () => void;
     label: string;
     amenities: string[];
@@ -27,6 +27,7 @@ withDefaults(
   <form @submit.prevent="onSubmit" class="p-4 pt-8">
     <AssetFormInput v-model="asset.title" label="Title" />
     <AssetFormInput
+      :min="new Date().toISOString().split('T')[0]"
       type="date"
       v-model="asset.available_from"
       label="Available from"

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { fetchAssetById, updateAsset } from "@/services";
-import type { Asset, AssetType } from "@/types";
+import type { AssetType, AssetWithType } from "@/types";
 import { useAssetStore } from "@/store";
 import { AssetForm, AppLoader, AppError, AppButton } from "@/components";
 
 const route = useRoute();
 const router = useRouter();
 const store = useAssetStore();
-const asset = ref<Asset | null>(null);
-const originalAsset = ref<Asset | null>(null);
+const asset = ref<AssetWithType | null>(null);
+const originalAsset = ref<AssetWithType | null>(null);
 const hasChanges = ref(false);
 
 const loadAsset = async () => {
@@ -27,7 +27,7 @@ const loadAsset = async () => {
     ...assetData.data,
     available_from: assetData.data.available_from.split("T")[0],
   };
-  originalAsset.value = { ...asset.value };
+  originalAsset.value = { ...(asset.value as AssetWithType) };
   store.isLoading = store.isLoading.filter(
     (item: string) => item !== "Details"
   );
@@ -49,13 +49,17 @@ watch(
   { deep: true }
 );
 
+const selectedTypeId = computed(
+  () =>
+    store.types.find((item: AssetType) => item.name === asset.value?.type?.name)
+      ?.uuid
+);
+
 const saveChanges = async () => {
   if (asset.value) {
-    await updateAsset(asset.value.uuid, {
-      ...asset.value,
-      type_id: store.types.find(
-        (item: AssetType) => item.name === asset.value.type.name
-      ).uuid,
+    await updateAsset(asset.value?.uuid as string, {
+      ...(asset.value as AssetWithType),
+      type_id: selectedTypeId.value as string,
       available_from: new Date(asset.value.available_from)
         .toISOString()
         .split("T")[0]
@@ -73,6 +77,8 @@ onMounted(() => {
   store.loadTypes();
   store.loadAmenities();
 });
+
+onUnmounted(() => store.clearData());
 </script>
 
 <template>

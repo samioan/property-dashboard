@@ -3,7 +3,7 @@ export type Asset = {
   entry: number;
   title: string;
   type: string;
-  size: string;
+  size: number;
   address: string;
   description: string;
   created: string;

@@ -4,7 +4,7 @@ import { AssetListCard } from "@/components/assetList";
 
 defineProps<{
   assets: Asset[];
-  onClick: (id: number) => void;
+  onClick: (id: string) => void;
 }>();
 </script>
 

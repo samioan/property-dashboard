@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { AssetWithType } from "@/types";
 
 const API_BASE_URL = "https://assignment.prosperty-mgmt.dev/v1";
 
@@ -26,7 +27,7 @@ export const fetchAssetById = async (uuid: string) => {
   return response.data;
 };
 
-export const updateAsset = async (uuid: string, data: any) => {
+export const updateAsset = async (uuid: string, data: AssetWithType) => {
   const response = await axios.put(`${API_BASE_URL}/listings/${uuid}`, data);
   return response.data;
 };
@@ -41,7 +42,7 @@ export const fetchTypes = async () => {
   return response.data;
 };
 
-export const createAsset = async (data: any) => {
+export const createAsset = async (data: AssetWithType) => {
   const response = await axios.post(`${API_BASE_URL}/listings`, data);
   return response.data;
 };
