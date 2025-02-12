@@ -9,6 +9,7 @@ import {
 import type { Asset, AssetApi, AssetType, AssetWithType } from "@/types";
 import { ref } from "vue";
 import { mapAssets, mapTypes } from "@/utils";
+import { LoadingStates } from "@/enums";
 
 export const useAssetStore = defineStore("assetStore", () => {
   const LIMIT_PER_PAGE = 30;
@@ -26,7 +27,7 @@ export const useAssetStore = defineStore("assetStore", () => {
   const hasError = ref(false);
 
   async function loadAssets() {
-    isLoading.value.push("Assets");
+    isLoading.value.push(LoadingStates.ASSETS);
     hasError.value = false;
     const assetData = await fetchAssets(
       page.value,
@@ -34,7 +35,9 @@ export const useAssetStore = defineStore("assetStore", () => {
       selectedType.value.id,
       selectedAmenities.value
     ).catch(() => (hasError.value = true));
-    isLoading.value = isLoading.value.filter((item) => item !== "Assets");
+    isLoading.value = isLoading.value.filter(
+      (item) => item !== LoadingStates.ASSETS
+    );
     assets.value = mapAssets(assetData.data);
     lastPage.value = assetData.meta.last_page;
   }
@@ -54,19 +57,23 @@ export const useAssetStore = defineStore("assetStore", () => {
 
   async function loadTypes() {
     if (types.value.length) return;
-    isLoading.value.push("Types");
+    isLoading.value.push(LoadingStates.TYPES);
     const typesData = await fetchTypes().catch(() => (hasError.value = true));
-    isLoading.value = isLoading.value.filter((item) => item !== "Types");
+    isLoading.value = isLoading.value.filter(
+      (item) => item !== LoadingStates.TYPES
+    );
     types.value = mapTypes(typesData.data);
   }
 
   async function loadAmenities() {
     if (amenities.value.length) return;
-    isLoading.value.push("Amenities");
+    isLoading.value.push(LoadingStates.AMENITIES);
     const amenitiesData = await fetchAmenities().catch(
       () => (hasError.value = true)
     );
-    isLoading.value = isLoading.value.filter((item) => item !== "Amenities");
+    isLoading.value = isLoading.value.filter(
+      (item) => item !== LoadingStates.AMENITIES
+    );
     amenities.value = amenitiesData.data;
   }
 
@@ -74,11 +81,19 @@ export const useAssetStore = defineStore("assetStore", () => {
     isModalOpen.value = value;
   }
 
+  async function saveChanges() {
+    await saveAsset(currentAsset.value?.uuid as string, {
+      ...(currentAsset.value as AssetWithType),
+      type_id: types.value.find(
+        (item: AssetType) => item.name === currentAsset.value?.type.name
+      )?.uuid as string,
+    });
+    setIsModalOpen(false);
+  }
+
   function clearData() {
     assets.value = [];
     currentAsset.value = {} as AssetApi;
-    types.value = [];
-    amenities.value = [];
     selectedType.value = { id: 0, uuid: "0", name: "None" };
     selectedAmenities.value = [];
     page.value = 1;
@@ -107,5 +122,6 @@ export const useAssetStore = defineStore("assetStore", () => {
     loadAmenities,
     setIsModalOpen,
     clearData,
+    saveChanges,
   };
 });

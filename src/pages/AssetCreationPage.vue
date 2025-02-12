@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { createAsset } from "@/services";
 import { useAssetStore } from "@/store";
-import { AssetForm, AppButton } from "@/components";
-import type { AssetType } from "@/types";
+import { AssetForm, AppButton, PageTitle } from "@/components";
+import type { AssetApi, AssetType } from "@/types";
+import {
+  transformFormData,
+  keepOriginalTypes,
+  setMinDate,
+  goToHomePage,
+} from "@/utils";
 
 const router = useRouter();
 const store = useAssetStore();
-const form = ref({
+
+const errorMessage = ref("");
+const isSubmitting = ref(false);
+const form = ref<AssetApi>({
   title: "",
-  available_from: `${Date.now()}`,
+  available_from: "",
   amenities: [],
   street: "",
   street_number: "",
@@ -19,31 +28,26 @@ const form = ref({
   bathrooms: 0,
   bedrooms: 0,
   price: "0",
-  type: {} as AssetType,
+  type: { name: "Apartment" } as AssetType,
   size: 0,
   description: "",
 });
 
-const errorMessage = ref("");
-const isSubmitting = ref(false);
+const assetFormProps = computed(() => ({
+  asset: form.value,
+  onSubmit: () => submitForm(),
+  amenities: store?.amenities,
+  types: keepOriginalTypes(store?.types),
+  label: "Create Asset",
+  disabled: isSubmitting.value,
+  minDate: setMinDate(),
+}));
 
-const submitForm = async () => {
+async function submitForm() {
   isSubmitting.value = true;
   errorMessage.value = "";
 
-  await createAsset({
-    ...form.value,
-    price: form.value.price.toString(),
-    type_id: store.types.find(
-      (item: AssetType) => item.name === form.value.type.name
-    )?.uuid,
-    available_from: new Date(form.value.available_from)
-      .toISOString()
-      .split("T")[0]
-      .split("/")
-      .reverse()
-      .join("-"),
-  })
+  await createAsset(transformFormData(form.value, store.types))
     .then(() => {
       router.go(-1);
     })
@@ -52,7 +56,7 @@ const submitForm = async () => {
     });
 
   isSubmitting.value = false;
-};
+}
 
 onMounted(() => {
   store.loadTypes();
@@ -64,35 +68,15 @@ onUnmounted(() => store.clearData());
 
 <template>
   <div>
-    <h1
-      class="my-4 text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
-    >
-      Create a New Asset
-    </h1>
+    <PageTitle>Create a New Asset</PageTitle>
     <div class="flex justify-center mb-8">
-      <AppButton
-        :on-click="
-          () => {
-            router.push({
-              path: `/`,
-            });
-          }
-        "
-        >Home</AppButton
-      >
+      <AppButton :on-click="() => goToHomePage(router)">Home</AppButton>
     </div>
     <div class="flex justify-center">
       <div
         class="relative p-2 w-full max-w-2xl max-h-full bg-black border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700"
       >
-        <AssetForm
-          :asset="form"
-          :on-submit="() => submitForm()"
-          :amenities="store?.amenities"
-          :types="store?.types.slice(1)"
-          label="Create Asset"
-          :disabled="isSubmitting"
-        />
+        <AssetForm v-bind="assetFormProps" />
         <p class="text-center text-red-400" v-if="errorMessage">
           {{ errorMessage }}
         </p>

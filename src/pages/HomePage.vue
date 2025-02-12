@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import { AppButton } from "@/components";
+import { AppButton, PageTitle } from "@/components";
 import { ref } from "vue";
 
 const uuid = ref("");
 </script>
 
 <template>
-  <h1
-    class="my-4 text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
-  >
-    Welcome to Prosperty!
-  </h1>
+  <PageTitle>Welcome to Prosperty!</PageTitle>
   <p
     class="text-center text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 mb-4"
   >

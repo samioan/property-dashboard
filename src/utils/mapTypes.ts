@@ -9,3 +9,7 @@ export function mapTypes(types: AssetTypeApi[]): AssetType[] {
 
   return [{ id: 0, uuid: "0", name: "None" }, ...mappedTypes];
 }
+
+export function keepOriginalTypes(types: AssetType[]): AssetType[] {
+  return types.slice(1);
+}

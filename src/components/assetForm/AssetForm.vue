@@ -16,6 +16,7 @@ withDefaults(
     amenities: string[];
     types: AssetType[];
     disabled?: boolean;
+    minDate?: string;
   }>(),
   {
     disabled: false,
@@ -27,9 +28,9 @@ withDefaults(
   <form @submit.prevent="onSubmit" class="p-4 pt-8">
     <AssetFormInput v-model="asset.title" label="Title" />
     <AssetFormInput
-      :min="new Date().toISOString().split('T')[0]"
       type="date"
       v-model="asset.available_from"
+      :min="(minDate as string)"
       label="Available from"
     />
 

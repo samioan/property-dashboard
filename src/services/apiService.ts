@@ -1,14 +1,14 @@
 import axios from "axios";
-import type { AssetWithType } from "@/types";
+import type { AssetWithType, AssetApi } from "@/types";
 
 const API_BASE_URL = "https://assignment.prosperty-mgmt.dev/v1";
 
-export const fetchAssets = async (
+export async function fetchAssets(
   page: number,
   limit: number,
   type?: number,
   amenities?: string[]
-) => {
+) {
   const response = await axios.get(`${API_BASE_URL}/listings`, {
     params: {
       page,
@@ -20,7 +20,7 @@ export const fetchAssets = async (
     },
   });
   return response.data;
-};
+}
 
 export const fetchAssetById = async (uuid: string) => {
   const response = await axios.get(`${API_BASE_URL}/listings/${uuid}`);
