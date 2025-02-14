@@ -28,7 +28,7 @@ const assetFormProps = computed(() => ({
 <template>
   <AssetEditModalBackground>
     <div
-      class="overflow-y-auto overflow-x-hidden relative p-2 w-full max-w-lg max-h-full bg-black border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700"
+      class="overflow-y-auto overflow-x-hidden relative p-2 w-full max-w-lg max-h-full border rounded-xl shadow-sm bg-gray-800 border-gray-700"
     >
       <AssetEditModalHeader :on-click="onCloseModal" />
       <AssetForm v-bind="assetFormProps" />

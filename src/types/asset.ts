@@ -6,6 +6,6 @@ export type Asset = {
   size: number;
   address: string;
   description: string;
-  created: string;
-  updated: string;
+  created?: string;
+  updated?: string;
 };

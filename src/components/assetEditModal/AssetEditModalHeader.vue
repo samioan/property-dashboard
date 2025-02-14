@@ -6,15 +6,13 @@ defineProps<{
 
 <template>
   <div
-    class="flex items-center justify-between p-2 border-b rounded-t dark:border-gray-600 border-gray-200"
+    class="flex items-center justify-between p-2 border-b rounded-t border-gray-600"
   >
-    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-      Edit Asset
-    </h3>
+    <h3 class="text-xl font-semibold text-white">Edit Asset</h3>
     <button
       @click="onClick"
       type="button"
-      class="cursor-pointer text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+      class="cursor-pointer text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
       data-modal-hide="default-modal"
     >
       <svg

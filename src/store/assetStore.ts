@@ -10,10 +10,9 @@ import type { Asset, AssetApi, AssetType, AssetWithType } from "@/types";
 import { ref } from "vue";
 import { mapAssets, mapTypes } from "@/utils";
 import { LoadingStates } from "@/enums";
+import { LIMIT_PER_PAGE } from "@/configs";
 
 export const useAssetStore = defineStore("assetStore", () => {
-  const LIMIT_PER_PAGE = 30;
-
   const assets = ref<Asset[]>([]);
   const currentAsset = ref<AssetApi>();
   const types = ref<AssetType[]>([]);
@@ -38,8 +37,8 @@ export const useAssetStore = defineStore("assetStore", () => {
     isLoading.value = isLoading.value.filter(
       (item) => item !== LoadingStates.ASSETS
     );
-    assets.value = mapAssets(assetData.data);
-    lastPage.value = assetData.meta.last_page;
+    assets.value = assetData.data ? mapAssets(assetData.data) : [];
+    lastPage.value = assetData?.meta?.last_page;
   }
 
   async function loadAssetById(uuid: string) {

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const props = withDefaults(
   defineProps<{
     modelValue: string[];
@@ -30,9 +29,7 @@ const handleCheckboxChange = (value: string) => {
 <template>
   <div class="w-full mb-6">
     <div class="flex flex-col space-y-2">
-      <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{
-        label
-      }}</label>
+      <label class="text-sm font-medium text-gray-300">{{ label }}</label>
       <div class="flex flex-wrap gap-4 items-center justify-start">
         <div
           v-for="option in options"
@@ -44,11 +41,9 @@ const handleCheckboxChange = (value: string) => {
             :value="option"
             :checked="modelValue.includes(option)"
             @change="handleCheckboxChange(option)"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            class="w-4 h-4 text-blue-600 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
           />
-          <span class="text-sm text-gray-900 dark:text-gray-300">{{
-            option
-          }}</span>
+          <span class="text-sm text-gray-300">{{ option }}</span>
         </div>
       </div>
     </div>

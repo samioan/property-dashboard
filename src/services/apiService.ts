@@ -1,7 +1,6 @@
 import axios from "axios";
-import type { AssetWithType, AssetApi } from "@/types";
-
-const API_BASE_URL = "https://assignment.prosperty-mgmt.dev/v1";
+import type { AssetWithType } from "@/types";
+import { API_BASE_URL } from "@/configs";
 
 export async function fetchAssets(
   page: number,

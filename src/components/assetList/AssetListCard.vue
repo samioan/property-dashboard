@@ -10,11 +10,9 @@ defineProps<{
 
 <template>
   <div
-    class="w-sm h-[400px] overflow-auto p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700"
+    class="w-sm h-[400px] overflow-auto p-6 border rounded-xl shadow-sm bg-gray-800 border-gray-700"
   >
-    <h5
-      class="mb-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-    >
+    <h5 class="mb-3 text-2xl font-bold tracking-tight text-white">
       {{ asset?.entry }}. {{ asset?.title }}
     </h5>
     <AssetListCardText>

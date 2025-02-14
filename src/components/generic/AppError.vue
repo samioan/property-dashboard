@@ -8,7 +8,7 @@ defineProps<{
   <div class="m-screen flex justify-center items-center">
     <div
       id="alert-additional-content-2"
-      class="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 max-w-lg"
+      class="p-4 mb-4 border rounded-lg bg-gray-800 text-red-400 border-red-800 max-w-lg"
       role="alert"
     >
       <div class="flex items-center">
@@ -33,7 +33,7 @@ defineProps<{
         <button
           @click="onClick"
           type="button"
-          class="cursor-pointer text-white bg-red-800 hover:bg-red-900 font-medium rounded-lg text-xs px-3 py-1.5 me-2 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+          class="cursor-pointer text-white font-medium rounded-lg text-xs px-3 py-1.5 me-2 text-center inline-flex items-center bg-red-600 hover:bg-red-700 focus:ring-red-800"
         >
           Try again
         </button>

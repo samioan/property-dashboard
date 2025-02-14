@@ -19,7 +19,7 @@ defineProps<{
     />
     <p
       v-else
-      class="text-center text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400 mb-4"
+      class="text-center text-lg font-normal lg:text-xl sm:px-16 xl:px-48 text-gray-400 mb-4"
     >
       No results found!
     </p>

@@ -1,4 +1,4 @@
-import type { AssetTypeApi } from "./assetTypeApi";
+import type { AssetTypeApi } from "@/types";
 
 export type AssetApi = {
   bathrooms: number;
@@ -6,7 +6,7 @@ export type AssetApi = {
   floor: number;
   latitude?: string;
   longitude?: string;
-  price: string;
+  price: string | number;
   available_from: string;
   uuid?: string;
   title: string;

@@ -100,20 +100,33 @@ onMounted(() => {
 });
 
 onUnmounted(() => store.clearData());
+
+watch(
+  () => store.isModalOpen,
+  (isModalOpen) => {
+    if (isModalOpen) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
+  }
+);
 </script>
 
 <template>
-  <PageTitle>Assets List</PageTitle>
-  <AppLoader v-if="store.isLoading.length" />
-  <AppError v-else-if="store.hasError" :on-click="reload" />
-  <div v-else>
-    <AssetFilters v-bind="assetFilterProps" />
-    <div class="flex flex-wrap items-center justify-center m-auto gap-2">
-      <AppButton v-bind="prevBtnProps">Previous Page</AppButton>
-      <AppButton v-bind="nextBtnProps"> Next Page</AppButton>
-      <AppButton :on-click="() => goToHomePage(router)">Home</AppButton>
+  <div>
+    <PageTitle>Assets List</PageTitle>
+    <AppLoader v-if="store.isLoading.length" />
+    <AppError v-else-if="store.hasError" :on-click="reload" />
+    <div v-else>
+      <AssetFilters v-bind="assetFilterProps" />
+      <div class="flex flex-wrap items-center justify-center m-auto gap-2">
+        <AppButton v-bind="prevBtnProps">Previous Page</AppButton>
+        <AppButton v-bind="nextBtnProps"> Next Page</AppButton>
+        <AppButton :on-click="() => goToHomePage(router)">Home</AppButton>
+      </div>
+      <AssetList v-bind="assetListProps" />
+      <AssetEditModal v-if="store.isModalOpen" v-bind="modalProps" />
     </div>
-    <AssetList v-bind="assetListProps" />
-    <AssetEditModal v-if="store.isModalOpen" v-bind="modalProps" />
   </div>
 </template>
